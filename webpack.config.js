@@ -34,15 +34,5 @@ module.exports = {
         new MiniCssExtractPlugin({
             filename: 'css/bundle.css'
         })
-    ],
-    devServer: {
-        static: {
-            directory: './src/css',
-        },
-        port: 3001,
-        proxy: {
-            '/api': 'http://localhost:3000',
-        },
-        hot: true
-    },
+    ]
 };
