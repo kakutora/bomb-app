@@ -11,13 +11,35 @@ ul {
 img {
   max-width: 100%;
 }
+
+
+.header{
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: 50px;
+  background: #eee;
+}
+.header__logo{
+  width: 35px;
+  height: 35px;
+  margin-left: 15px;
+  background: #000;
+}
+.header__nav{
+
+}
+.header__list{
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  margin-left: auto;
+  background: lightblue;
+}
+.header__item{ 
+  background: gray;
+}
+
 #form {
   display: none;
 }
-
-header {
-  background-color: orange;
-}
-
-
-

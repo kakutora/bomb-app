@@ -2,24 +2,23 @@ const express = require("express");
 const ejs = require('ejs');
 const http = require("http");
 const socketIO = require("socket.io");
-
 const app = express();
 const server = http.createServer(app);
 const io = socketIO(server);
-
 const fs = require('fs');
 const filePath = 'src/json/futsu_ga_ichiban.json';
+const { exec } = require('child_process');
+const webpackProcess = exec('webpack --watch');
+/*
+const chokidar = require('chokidar');
+const watcher = chokidar.watch('views');
+*/
 
 app.set('view engine', 'ejs');
 
 app.use("/js", express.static(__dirname + "/dist/js/"));
 app.use("/css", express.static(__dirname + "/dist/css/"));
 app.use("/img", express.static(__dirname + "/src/img/"));
-
-app.use(
-    "/io",
-    express.static(__dirname + "/node_modules/socket.io/client-dist/")
-);
 
 app.get('/', (req, res) => {
     //res.sendFile(__dirname + '/views/');
@@ -32,6 +31,26 @@ app.get('/', (req, res) => {
 app.get('/game', (req, res) => {
     res.sendFile(__dirname + '/views/game/');
 });
+
+/*
+const init = io.of("/head");
+
+init.on('connection', (socket) => {
+    webpackProcess.stdout.on('data', (data) => {
+        const output = data.toString();
+
+        if (output.includes('webpack 5.87.0 compiled with')) {
+            console.log('バンドル完了通知');
+            socket.emit('reload');
+        }
+    });
+
+    watcher.on('change', (path) => {
+        console.log('EJS file changed:', path);
+        socket.emit('reload');
+    });
+});
+*/
 
 const root = io.of("/");
 const rooms = {};
@@ -74,7 +93,7 @@ root.on('connection', (socket) => {
                 };
             });
         } else {
-            console.log('エラー');
+            console.log('waitingRoomが存在してないよ');
         }
     });
 });
