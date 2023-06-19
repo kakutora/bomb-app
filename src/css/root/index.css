@@ -108,9 +108,14 @@
   padding: 8px;
   background: none;
   border: 1px solid black;
+  transition: all .3s ease;
 }
 .mode__createRoom:active {
   opacity: 0.5;
+}
+.mode__createRoom:hover {
+  padding: 12px;
+  transition: all .3s ease;
 }
 .mode__result {
   width: 50%;
@@ -124,9 +129,15 @@
   padding: 8px;
   background: none;
   border: 1px solid black;
+  transition: all .3s ease;
+
 }
 .mode__searchRoom:active {
   opacity: 0.5;
+}
+.mode__searchRoom:hover {
+  padding: 12px;
+  transition: all .3s ease;
 }
 .mode__inputRoomId {
   width: 50%;
@@ -135,5 +146,9 @@
   text-align: center;
   background: none;
   border: none;
+  border-bottom: 1px solid black;
+}
+.mode__inputRoomId:focus{
+  outline: none;
   border-bottom: 1px solid black;
 }

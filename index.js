@@ -9,16 +9,6 @@ const fs = require('fs');
 const filePath = 'src/json/futsu_ga_ichiban.json';
 const crypto = require('crypto');
 
-/*
-const { exec } = require('child_process');
-const webpackProcess = exec('webpack --watch');
-*/
-
-/*
-const chokidar = require('chokidar');
-const watcher = chokidar.watch('views');
-*/
-
 app.set('view engine', 'ejs');
 
 app.use("/js", express.static(__dirname + "/dist/js/"));
@@ -36,25 +26,7 @@ app.get('/game', (req, res) => {
     res.sendFile(__dirname + '/views/game/');
 });
 
-/*
-const init = io.of("/head");
 
-init.on('connection', (socket) => {
-    webpackProcess.stdout.on('data', (data) => {
-        const output = data.toString();
-
-        if (output.includes('webpack 5.87.0 compiled with')) {
-            console.log('バンドル完了通知');
-            socket.emit('reload');
-        }
-    });
-
-    watcher.on('change', (path) => {
-        console.log('EJS file changed:', path);
-        socket.emit('reload');
-    });
-});
-*/
 
 const root = io.of("/");
 const rooms = {};
@@ -63,6 +35,10 @@ root.on('connection', (socket) => {
     socket.on('privateCreateRoom', () => {
         socket.emit('roomID', generateRandomString(8));
     });
+    socket.on('privateSearchRoom', (data) => {
+        console.log(data);
+    });
+    //----------
     socket.on('join', (data) => {//ランダムマッチ入室イベント受信
         socket.join("waitingRoom");//待機所に入室
 
@@ -113,9 +89,9 @@ const searchClients = (roomName) => {
     root.to(roomName).emit('clientList', roomClients);
 };
 
-function generateRandomString(length) {
+const generateRandomString = (length) => {
     return crypto.randomBytes(Math.ceil(length / 2)).toString('hex').slice(0, length);
-}
+};
 
 const game = io.of("/game");
 const players = {};
@@ -170,8 +146,33 @@ server.listen(3000, () => {
     console.log("Server started on port 3000");
 });
 
-const { v4: uuidv4 } = require('uuid');
 
-// 使用例:
-const uuid = uuidv4(); // ランダムなUUIDを生成
-console.log(uuid);
+/*
+const { exec } = require('child_process');
+const webpackProcess = exec('webpack --watch');
+*/
+
+/*
+const chokidar = require('chokidar');
+const watcher = chokidar.watch('views');
+*/
+
+/*
+const init = io.of("/head");
+
+init.on('connection', (socket) => {
+    webpackProcess.stdout.on('data', (data) => {
+        const output = data.toString();
+
+        if (output.includes('webpack 5.87.0 compiled with')) {
+            console.log('バンドル完了通知');
+            socket.emit('reload');
+        }
+    });
+
+    watcher.on('change', (path) => {
+        console.log('EJS file changed:', path);
+        socket.emit('reload');
+    });
+});
+*/

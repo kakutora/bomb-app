@@ -55,22 +55,13 @@ privateCreateRoom.addEventListener('click', () => {
     socket.emit('privateCreateRoom');
 });
 
-privateInputRoom.addEventListener('input', () => {
-    if (privateInputRoom.value.length > 0) {
-        privateCreateRoom.disabled = true;
-    } else {
-        privateCreateRoom.disabled = false;
-
-    }
+privateSearchRoom.addEventListener('click', () => {
+    socket.emit("privateSearchRoom", privateInputRoom.value);
 });
 
-const privateCancelEvent = () => {
-    socket.emit('privateRemoveRoom');
-    privateRoomResult.innerHTML = "";
-    privateCreateRoom.disabled = false;
-    privateSearchRoom.disabled = false;
-    privateInputRoom.disabled = false;
-};
+privateInputRoom.addEventListener('input', () => {
+    privateCreateRoom.disabled = privateInputRoom.value.length > 0 ? true : false;
+});
 
 socket.on('roomID', (data) => {
     privateRoomResult.innerHTML = data;
@@ -94,3 +85,11 @@ socket.on('data', (data) => {
 socket.on('clientList', (data) => {
     console.log(`今接続してるプレイヤーは${data}人です。`);
 });
+
+const privateCancelEvent = () => {
+    socket.emit('privateRemoveRoom');
+    privateRoomResult.innerHTML = "";
+    privateCreateRoom.disabled = false;
+    privateSearchRoom.disabled = false;
+    privateInputRoom.disabled = false;
+};
