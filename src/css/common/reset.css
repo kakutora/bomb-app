@@ -4,6 +4,8 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  font-family: "Noto Sans JP", sans-serif;
+  font-size: 14px;
 }
 ul {
   list-style-type: none;
@@ -11,4 +13,11 @@ ul {
 img {
   max-width: 100%;
 }
+body::-webkit-scrollbar {
+  width: 0.5em;
+  background-color: #f5f5f5;
+}
 
+body::-webkit-scrollbar-thumb {
+  background-color: #888;
+}

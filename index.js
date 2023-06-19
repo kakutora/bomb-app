@@ -7,8 +7,13 @@ const server = http.createServer(app);
 const io = socketIO(server);
 const fs = require('fs');
 const filePath = 'src/json/futsu_ga_ichiban.json';
+const crypto = require('crypto');
+
+/*
 const { exec } = require('child_process');
 const webpackProcess = exec('webpack --watch');
+*/
+
 /*
 const chokidar = require('chokidar');
 const watcher = chokidar.watch('views');
@@ -21,7 +26,6 @@ app.use("/css", express.static(__dirname + "/dist/css/"));
 app.use("/img", express.static(__dirname + "/src/img/"));
 
 app.get('/', (req, res) => {
-    //res.sendFile(__dirname + '/views/');
     const data = {
         val: "tesutiobunsjifj"
     };
@@ -56,34 +60,39 @@ const root = io.of("/");
 const rooms = {};
 
 root.on('connection', (socket) => {
-    socket.on('join', (data) => {
-        socket.join("waitingRoom");
+    socket.on('privateCreateRoom', () => {
+        socket.emit('roomID', generateRandomString(8));
+    });
+    socket.on('join', (data) => {//ランダムマッチ入室イベント受信
+        socket.join("waitingRoom");//待機所に入室
 
-        if (!rooms["waitingRoom"]) {
-            rooms["waitingRoom"] = [];
+        if (!rooms["waitingRoom"]) {//もし誰も待機所にいなかったら
+            rooms["waitingRoom"] = [];//プレイヤーのIDと名前が格納されたオブジェクトを入れる配列を作成
         }
 
-        let userObj = {
-            id: socket.id,
-            name: data
+        let userObj = {//プレイヤー情報格納
+            id: socket.id,//一意のID
+            name: data//formで入力されたプレイヤー名
         };
 
+        //既にプレイヤー情報が格納されていたらtrue
         const duplicate = rooms["waitingRoom"].some(obj => obj.id === userObj.id);
 
-        if (!duplicate) {
+        if (!duplicate) {//格納されていなかったらプッシュ
             rooms["waitingRoom"].push(userObj);
         }
 
+        //ルームのプレイヤー全員に現在のプレイヤー情報を送信
         root.to('waitingRoom').emit('data', rooms["waitingRoom"]);
 
         searchClients("waitingRoom");
     });
 
     socket.on('disconnecting', () => {
-        if (rooms["waitingRoom"]) {
+        if (rooms["waitingRoom"]) {//もしルームが作成されていたら
             console.log(rooms["waitingRoom"], 1);
 
-            rooms["waitingRoom"].find((el) => {
+            rooms["waitingRoom"].find((el) => {//接続が切れたプレイヤーのIDをもとに削除
                 if (el.id == socket.id) {
                     console.log(rooms["waitingRoom"], 2);
                     rooms["waitingRoom"] = rooms["waitingRoom"].filter(obj => obj.id !== socket.id);
@@ -104,23 +113,9 @@ const searchClients = (roomName) => {
     root.to(roomName).emit('clientList', roomClients);
 };
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+function generateRandomString(length) {
+    return crypto.randomBytes(Math.ceil(length / 2)).toString('hex').slice(0, length);
+}
 
 const game = io.of("/game");
 const players = {};
@@ -176,7 +171,6 @@ server.listen(3000, () => {
 });
 
 const { v4: uuidv4 } = require('uuid');
-const { SocketAddress } = require("net");
 
 // 使用例:
 const uuid = uuidv4(); // ランダムなUUIDを生成

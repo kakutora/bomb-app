@@ -1,10 +1,27 @@
   <%- include('common/head',{title:"ボンバーマン"}) %>
   <%- include('common/header',{val:"ヘッダー"}) %>
-  <main>
-    <form action="" id="form">
-      <input type="text" id="name">
-      <button type="submit" id="btn">待機所に入室</button>
-    </form>
+  <main class="main">
+    <section class="mode">
+      <div class="mode__box">
+        <div class="privateForm form">
+          <div class="mode__label">
+            <button type="button" class="mode__createRoom">ルームを作成する</button>
+            <p class="mode__result"></p>
+          </div>
+          <div class="mode__label">
+            <button type="button" class="mode__searchRoom">ルームに参加する</button>
+            <input type="text" class="mode__inputRoomId" placeholder="8文字で入力してください">
+          </div>
+        </div>
+      </div>
+      <div class="mode__box">
+        <form action="" class="publicForm form">
+          <input type="text" id="name">
+          <button type="submit" id="btn">待機所に入室</button>
+        </form>
+      </div>
+    </section>
+    <button class="exitBtn"></button>
 
   </main>
   <%- include('common/footer',{val:"フッター"}) %>

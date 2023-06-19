@@ -1,3 +1,139 @@
 #form {
-  display: none;
+}
+.main {
+  position: relative;
+}
+.mode {
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 30px;
+  width: 100%;
+  height: 100vh;
+}
+.mode__box {
+  width: calc(50% - 38px);
+  height: calc(100vh - 60px);
+  background: gray;
+  transition: 0.4s all ease;
+}
+.mode__box:nth-of-type(1) {
+  background: lightblue;
+}
+.mode__box:nth-of-type(2) {
+  background: lightcyan;
+}
+.js-mode__box {
+  /*transform: scale(4);*/
+  width: 150%;
+  height: 100vh;
+  transition: 0.5s all ease;
+}
+.exitBtn {
+  display: block;
+  position: absolute;
+  top: 25px;
+  width: 30px;
+  height: 30px;
+  background: none;
+  border: none;
+  opacity: 0;
+  transition: 0.3s opacity ease;
+}
+.js-exitBtn {
+  opacity: 1;
+  transition: 0.3s opacity ease;
+}
+.js-exitBtn__pos-0 {
+  left: 25px;
+  right: initial;
+}
+.js-exitBtn__pos-1 {
+  left: initial;
+  right: 25px;
+}
+.exitBtn::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 3px; /* 棒の幅（太さ） */
+  height: 27px; /* 棒の高さ */
+  background: #333; /* バツ印の色 */
+  transform: translate(-50%, -50%) rotate(45deg);
+}
+.exitBtn::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 3px; /* 棒の幅（太さ） */
+  height: 27px; /* 棒の高さ */
+  background: #333; /* バツ印の色 */
+  transform: translate(-50%, -50%) rotate(-45deg);
+}
+.form {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 100px;
+  width: 100%;
+  height: 100%;
+  visibility: hidden;
+  opacity: 0;
+  transition: all 0.3s ease;
+}
+.form label,
+.form input {
+  display: block;
+}
+.js-form {
+  visibility: visible;
+  opacity: 1;
+  transition: all 0.3s ease;
+}
+.privateForm {
+}
+.mode__label {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  width: 100%;
+}
+.mode__createRoom {
+  display: block;
+  padding: 8px;
+  background: none;
+  border: 1px solid black;
+}
+.mode__createRoom:active {
+  opacity: 0.5;
+}
+.mode__result {
+  width: 50%;
+  height: 2rem;
+  margin-top: 25px;
+  text-align: center;
+  border-bottom: 1px solid black;
+}
+.mode__searchRoom {
+  display: block;
+  padding: 8px;
+  background: none;
+  border: 1px solid black;
+}
+.mode__searchRoom:active {
+  opacity: 0.5;
+}
+.mode__inputRoomId {
+  width: 50%;
+  height: 2rem;
+  margin-top: 25px;
+  text-align: center;
+  background: none;
+  border: none;
+  border-bottom: 1px solid black;
 }
