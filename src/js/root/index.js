@@ -10,15 +10,20 @@ init.on('reload', () => {
 const socket = io('/');
 const modeBox = document.querySelectorAll('.mode__box');
 const exitBtn = document.querySelector('.exitBtn');
-const form = document.querySelectorAll('.form');
-const privateForm = document.querySelector('.privateForm');
+const form = document.querySelectorAll('.mode__form');
+const privateForm = document.querySelector('.mode__form--private');
 const privateCreateRoom = document.querySelector('.mode__createRoom');
 const privateRoomResult = document.querySelector('.mode__result');
 const privateSearchRoom = document.querySelector('.mode__searchRoom');
 const privateInputRoom = document.querySelector('.mode__inputRoomId');
-const publicForm = document.querySelector('.publicForm');
+const privateInputName = document.querySelector('.mode__inputName');
+const publicForm = document.querySelector('.mode__form--public');
 
 let isFlag = 0;
+let isRoom = false;
+let isEnter = { val: false };
+
+const toggleValue = value => (value === 0 ? 1 : value === 1 ? 0 : value);
 
 for (let i = 0; i < modeBox.length; i++) {
     modeBox[i].addEventListener('click', () => {
@@ -28,7 +33,7 @@ for (let i = 0; i < modeBox.length; i++) {
             exitBtn.classList.add('js-exitBtn__pos-' + i);
             setTimeout(() => {
                 exitBtn.classList.add('js-exitBtn');
-                form[i].classList.add('js-form');
+                form[i].classList.add('js-mode__form');
             }, 300);
         }
     });
@@ -36,37 +41,78 @@ for (let i = 0; i < modeBox.length; i++) {
     exitBtn.addEventListener('click', () => {
         if (isFlag == i + 1) {
             exitBtn.classList.remove('js-exitBtn');
-            form[i].classList.remove('js-form');
+            form[i].classList.remove('js-mode__form');
 
             setTimeout(() => {
                 exitBtn.classList.remove('js-exitBtn__pos-' + i);
                 modeBox[i].classList.remove('js-mode__box');
                 isFlag = 0;
                 privateCancelEvent();
-            }, 300);
+            }, 200);
+        }
+    });
+
+    let j = toggleValue(i);
+
+    modeBox[j].addEventListener('click', () => {
+        if (isFlag == i + 1) {
+            exitBtn.classList.remove('js-exitBtn');
+            form[i].classList.remove('js-mode__form');
+
+            setTimeout(() => {
+                exitBtn.classList.remove('js-exitBtn__pos-' + i);
+                modeBox[i].classList.remove('js-mode__box');
+                isFlag = 0;
+                privateCancelEvent();
+            }, 200);
         }
     });
 }
 
-privateCreateRoom.addEventListener('click', () => {
-    privateCreateRoom.disabled = true;
-    privateSearchRoom.disabled = true;
-    privateInputRoom.disabled = true;
-    socket.emit('privateCreateRoom');
-});
-
-privateSearchRoom.addEventListener('click', () => {
-    socket.emit("privateSearchRoom", privateInputRoom.value);
-});
-
 privateInputRoom.addEventListener('input', () => {
     privateCreateRoom.disabled = privateInputRoom.value.length > 0 ? true : false;
+});
+
+privateForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    if (e.submitter.value === "create") {
+        privateCreateRoom.disabled = true;
+        privateSearchRoom.disabled = true;
+        privateInputRoom.disabled = true;
+        privateInputName.setAttribute('readonly', 'true');
+        socket.emit('privateCreateRoom');
+    }
+    if (e.submitter.value === "search") {
+        socket.emit("privateSearchRoom", privateInputRoom.value);
+    }
+
 });
 
 socket.on('roomID', (data) => {
     privateRoomResult.innerHTML = data;
 });
 
+socket.on('roomIDforSession', (data) => {
+    sessionStorage.setItem('roomID', data.data);
+});
+
+socket.on('roomIDforSession', (data) => {
+    isEnter.val = data.isEnter;
+    console.log(isEnter.val);
+});
+
+exitBtn.addEventListener('click', () => {
+    if (isEnter.val) {
+        socket.emit('leaveRoom', sessionStorage.getItem('roomID'));
+        isEnter.val = false;
+    }
+});
+modeBox[1].addEventListener('click', () => {
+    if (isEnter.val) {
+        socket.emit('leaveRoom', sessionStorage.getItem('roomID'));
+        isEnter.val = false;
+    }
+});
 
 
 

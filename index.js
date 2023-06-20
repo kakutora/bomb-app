@@ -26,17 +26,37 @@ app.get('/game', (req, res) => {
     res.sendFile(__dirname + '/views/game/');
 });
 
-
-
 const root = io.of("/");
 const rooms = {};
 
 root.on('connection', (socket) => {
     socket.on('privateCreateRoom', () => {
-        socket.emit('roomID', generateRandomString(8));
+        let rdmChr = generateRandomString(8);
+        socket.emit('roomID', rdmChr);
+        socket.join(rdmChr);
+        socket.emit('roomIDforSession', { data: rdmChr, isEnter: true });
+        searchClients(root, rdmChr);
     });
     socket.on('privateSearchRoom', (data) => {
-        console.log(data);
+        if (root.adapter.rooms.has(data)) {
+            socket.join(data);
+            socket.emit('roomIDforSession', { data: data, isEnter: true });
+            searchClients(root, data);
+        } else {
+            console.log('ルームが存在しません。');
+        }
+    });
+    socket.on('leaveRoom', (data) => {
+        socket.leave(data);
+        searchClients(root, data);
+    });
+    socket.on('disconnecting', () => {
+        for (const [roomName, room] of root.adapter.rooms.entries()) {
+            if (room.has(socket.id)) {
+                console.log('成功desu');
+                searchClients(root, roomName);
+            }
+        }
     });
     //----------
     socket.on('join', (data) => {//ランダムマッチ入室イベント受信
@@ -46,22 +66,22 @@ root.on('connection', (socket) => {
             rooms["waitingRoom"] = [];//プレイヤーのIDと名前が格納されたオブジェクトを入れる配列を作成
         }
 
-        let userObj = {//プレイヤー情報格納
+        let publicUser = {//プレイヤー情報格納
             id: socket.id,//一意のID
             name: data//formで入力されたプレイヤー名
         };
 
         //既にプレイヤー情報が格納されていたらtrue
-        const duplicate = rooms["waitingRoom"].some(obj => obj.id === userObj.id);
+        const duplicate = rooms["waitingRoom"].some(obj => obj.id === publicUser.id);
 
         if (!duplicate) {//格納されていなかったらプッシュ
-            rooms["waitingRoom"].push(userObj);
+            rooms["waitingRoom"].push(publicUser);
         }
 
         //ルームのプレイヤー全員に現在のプレイヤー情報を送信
         root.to('waitingRoom').emit('data', rooms["waitingRoom"]);
 
-        searchClients("waitingRoom");
+        searchClients(root, "waitingRoom");
     });
 
     socket.on('disconnecting', () => {
@@ -83,10 +103,10 @@ root.on('connection', (socket) => {
     });
 });
 
-const searchClients = (roomName) => {
-    let room = io.sockets.adapter.rooms.get(roomName);
+const searchClients = (nameSpace, roomName) => {
+    let room = nameSpace.adapter.rooms.get(roomName);
     let roomClients = room ? room.size : 0;
-    root.to(roomName).emit('clientList', roomClients);
+    nameSpace.to(roomName).emit('clientList', roomClients);
 };
 
 const generateRandomString = (length) => {

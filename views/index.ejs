@@ -3,19 +3,23 @@
   <main class="main">
     <section class="mode">
       <div class="mode__box">
-        <div class="privateForm form">
-          <div class="mode__label">
-            <button type="button" class="mode__createRoom">ルームを作成する</button>
+        <form class="mode__form mode__form--private">
+          <div class="mode__input">
+            <label for="name">名前</label>
+            <input type="text" id="name" required class="mode__inputName">
+          </div>
+          <div class="mode__input">
+            <button type="submit" value="create" class="mode__createRoom">ルームを作成する</button>
             <p class="mode__result"></p>
           </div>
-          <div class="mode__label">
-            <button type="button" class="mode__searchRoom">ルームに参加する</button>
+          <div class="mode__input">
+            <button type="submit" value="search" class="mode__searchRoom">ルームに参加する</button>
             <input type="text" class="mode__inputRoomId" placeholder="8文字で入力してください">
           </div>
-        </div>
+        </form>
       </div>
       <div class="mode__box">
-        <form action="" class="publicForm form">
+        <form action="" class="mode__form mode__form--public">
           <input type="text" id="name">
           <button type="submit" id="btn">待機所に入室</button>
         </form>
