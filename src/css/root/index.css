@@ -38,15 +38,21 @@
 .mode__form input {
   display: block;
 }
-.mode__inputBox {
-}
 .mode__input {
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
   width: 100%;
-  transition: all 0.3s ease;
+  visibility: visible;
+  opacity: 1;
+  transition: opacity 0.3s ease;
+}
+.mode__input--wait {
+  flex-direction: row;
+  visibility: hidden;
+  opacity: 0;
+  transition: opacity 0.3s ease;
 }
 .mode__inputName {
   width: 50%;
@@ -140,6 +146,9 @@
   background: #333; /* バツ印の色 */
   transform: translate(-50%, -50%) rotate(-45deg);
 }
+.mod__roomNOP {
+  display: inline-block;
+}
 /* JS */
 .js-mode__box {
   /*transform: scale(4);*/
@@ -164,6 +173,13 @@
   left: initial;
   right: 25px;
 }
-.js-none {
-  display: none;
+.js-mode__input--beforeWait {
+  visibility: hidden;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+.js-mode__input--afterWait {
+  visibility: visible;
+  opacity: 1;
+  transition: opacity 0.3s ease;
 }

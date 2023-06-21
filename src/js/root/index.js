@@ -78,8 +78,9 @@ privateForm.addEventListener('submit', (e) => {
         privateInputRoom.disabled = true;
         privateInputName.setAttribute('readonly', 'true');
         socket.emit('privateCreateRoom');
-        privateInputSection[1].classList.add('js-none');
-        privateInputSection[2].classList.add('js-none');
+        privateInputSection[1].classList.add('js-mode__input--beforeWait');
+        privateInputSection[2].classList.add('js-mode__input--beforeWait');
+        privateInputSection[3].classList.add('js-mode__input--afterWait');
     }
     if (e.submitter.value === "search") {
         socket.emit("privateSearchRoom", privateInputRoom.value);
