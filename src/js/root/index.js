@@ -17,6 +17,7 @@ const privateRoomResult = document.querySelector('.mode__result');
 const privateSearchRoom = document.querySelector('.mode__searchRoom');
 const privateInputRoom = document.querySelector('.mode__inputRoomId');
 const privateInputName = document.querySelector('.mode__inputName');
+const privateInputSection = document.querySelectorAll('.mode__input');
 const publicForm = document.querySelector('.mode__form--public');
 
 let isFlag = 0;
@@ -69,10 +70,6 @@ for (let i = 0; i < modeBox.length; i++) {
     });
 }
 
-privateInputRoom.addEventListener('input', () => {
-    privateCreateRoom.disabled = privateInputRoom.value.length > 0 ? true : false;
-});
-
 privateForm.addEventListener('submit', (e) => {
     e.preventDefault();
     if (e.submitter.value === "create") {
@@ -81,24 +78,22 @@ privateForm.addEventListener('submit', (e) => {
         privateInputRoom.disabled = true;
         privateInputName.setAttribute('readonly', 'true');
         socket.emit('privateCreateRoom');
+        privateInputSection[1].classList.add('js-none');
+        privateInputSection[2].classList.add('js-none');
     }
     if (e.submitter.value === "search") {
         socket.emit("privateSearchRoom", privateInputRoom.value);
     }
-
 });
 
-socket.on('roomID', (data) => {
-    privateRoomResult.innerHTML = data;
+privateInputRoom.addEventListener('input', () => {
+    privateCreateRoom.disabled = privateInputRoom.value.length > 0 ? true : false;
 });
 
 socket.on('roomIDforSession', (data) => {
+    privateRoomResult.innerHTML = data.data;
     sessionStorage.setItem('roomID', data.data);
-});
-
-socket.on('roomIDforSession', (data) => {
     isEnter.val = data.isEnter;
-    console.log(isEnter.val);
 });
 
 exitBtn.addEventListener('click', () => {

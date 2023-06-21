@@ -79,7 +79,7 @@ body::-webkit-scrollbar-thumb {
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  gap: 100px;
+  gap: 10vh;
   width: 100%;
   height: 100%;
   visibility: hidden;
@@ -90,12 +90,15 @@ body::-webkit-scrollbar-thumb {
 .mode__form input {
   display: block;
 }
+.mode__inputBox {
+}
 .mode__input {
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
   width: 100%;
+  transition: all 0.3s ease;
 }
 .mode__inputName {
   width: 50%;
@@ -212,5 +215,8 @@ body::-webkit-scrollbar-thumb {
 .js-exitBtn__pos-1 {
   left: initial;
   right: 25px;
+}
+.js-none {
+  display: none;
 }
 

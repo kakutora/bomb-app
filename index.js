@@ -32,7 +32,6 @@ const rooms = {};
 root.on('connection', (socket) => {
     socket.on('privateCreateRoom', () => {
         let rdmChr = generateRandomString(8);
-        socket.emit('roomID', rdmChr);
         socket.join(rdmChr);
         socket.emit('roomIDforSession', { data: rdmChr, isEnter: true });
         searchClients(root, rdmChr);
@@ -51,12 +50,11 @@ root.on('connection', (socket) => {
         searchClients(root, data);
     });
     socket.on('disconnecting', () => {
-        for (const [roomName, room] of root.adapter.rooms.entries()) {
-            if (room.has(socket.id)) {
-                console.log('成功desu');
-                searchClients(root, roomName);
-            }
-        }
+        const roomNames = Array.from(socket.rooms).filter(roomId => roomId !== socket.id);
+        roomNames.forEach((roomName) => {
+            socket.leave(roomName);
+            searchClients(root, roomName);
+        });
     });
     //----------
     socket.on('join', (data) => {//ランダムマッチ入室イベント受信
@@ -98,7 +96,7 @@ root.on('connection', (socket) => {
                 };
             });
         } else {
-            console.log('waitingRoomが存在してないよ');
+            //console.log('waitingRoomが存在してないよ');
         }
     });
 });
