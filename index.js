@@ -14,6 +14,7 @@ app.set('view engine', 'ejs');
 app.use("/js", express.static(__dirname + "/dist/js/"));
 app.use("/css", express.static(__dirname + "/dist/css/"));
 app.use("/img", express.static(__dirname + "/src/img/"));
+app.use("/fonts", express.static(__dirname + "/dist/fonts/"));
 
 app.get('/', (req, res) => {
     const data = {

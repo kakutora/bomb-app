@@ -22,6 +22,12 @@
 .mode__box:nth-of-type(2) {
   background: lightcyan;
 }
+.js-mode__box {
+  /*transform: scale(4);*/
+  width: 150%;
+  height: 100vh;
+  transition: 0.5s all ease;
+}
 .mode__form {
   display: flex;
   justify-content: center;
@@ -33,6 +39,11 @@
   visibility: hidden;
   opacity: 0;
   transition: all 0.2s ease;
+}
+.js-mode__form {
+  visibility: visible;
+  opacity: 1;
+  transition: all 0.3s ease;
 }
 .mode__form label,
 .mode__form input {
@@ -52,6 +63,16 @@
   flex-direction: row;
   visibility: hidden;
   opacity: 0;
+  transition: opacity 0.3s ease;
+}
+.js-mode__input--beforeWait {
+  visibility: hidden;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+.js-mode__input--afterWait {
+  visibility: visible;
+  opacity: 1;
   transition: opacity 0.3s ease;
 }
 .mode__inputName {
@@ -150,17 +171,7 @@
   display: inline-block;
 }
 /* JS */
-.js-mode__box {
-  /*transform: scale(4);*/
-  width: 150%;
-  height: 100vh;
-  transition: 0.5s all ease;
-}
-.js-mode__form {
-  visibility: visible;
-  opacity: 1;
-  transition: all 0.3s ease;
-}
+
 .js-exitBtn {
   opacity: 1;
   transition: 0.3s opacity ease;
@@ -172,14 +183,4 @@
 .js-exitBtn__pos-1 {
   left: initial;
   right: 25px;
-}
-.js-mode__input--beforeWait {
-  visibility: hidden;
-  opacity: 0;
-  transition: opacity 0.3s ease;
-}
-.js-mode__input--afterWait {
-  visibility: visible;
-  opacity: 1;
-  transition: opacity 0.3s ease;
 }
