@@ -17,10 +17,7 @@ app.use("/img", express.static(__dirname + "/src/img/"));
 app.use("/fonts", express.static(__dirname + "/dist/fonts/"));
 
 app.get('/', (req, res) => {
-    const data = {
-        val: "tesutiobunsjifj"
-    };
-    res.render(__dirname + '/views/index', data);
+    res.render(__dirname + '/views/index');
 });
 
 app.get('/game', (req, res) => {

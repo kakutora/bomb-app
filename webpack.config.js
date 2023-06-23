@@ -1,47 +1,51 @@
-
-const glob = require('glob');
-
 const path = require('path');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const CopyWebpackPlugin = require('copy-webpack-plugin');
-const io = './node_modules/socket.io-client/dist/socket.io.js';
-
 
 module.exports = {
     entry: {
-        root: {
-            import: './src/js/root/index.js',
-            filename: 'js/root.bundle.js'
-        }
+        root: './src/js/root/index.js'
     },
+
     output: {
-        path: path.resolve(__dirname, 'dist'),
-        publicPath: '/',
-        clean: true
+        filename: '[name].bundle.js', // バンドルファイル名にエントリーポイント名を使用
+        path: path.resolve(__dirname, 'dist/js'), // JavaScript出力ディレクトリのパス
     },
+
     module: {
         rules: [
             {
                 test: /\.js$/,
                 exclude: /node_modules/,
-                use: ['babel-loader']
+                use: {
+                    loader: 'babel-loader',
+                    options: {
+                        presets: ['@babel/preset-env'],
+                    },
+                },
             },
             {
                 test: /\.css$/,
-                use: [
-                    MiniCssExtractPlugin.loader,
-                    'css-loader'
-                ]
-
+                use: [MiniCssExtractPlugin.loader, 'css-loader'],
+            },
+            // フォントファイルの処理用ルール
+            {
+                test: /\.(woff|woff2)$/,
+                type: 'asset/resource',
+                generator: {
+                    filename: 'fonts/[name][ext]' // 出力するフォントファイルのパス
+                }
             }
-        ]
+        ],
     },
+
     plugins: [
         new MiniCssExtractPlugin({
-            filename: 'css/[name].bundle.css'
-        })
-    ]
+            filename: '../css/[name].bundle.css', // CSS出力パスとファイル名にエントリーポイント名を使用
+        }),
+    ],
 };
+
+
 
 
 /*

@@ -1,3 +1,4 @@
+import "../../css/root/index.css";
 import io from 'socket.io-client';
 
 /*
