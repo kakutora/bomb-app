@@ -21,7 +21,7 @@ app.get('/', (req, res) => {
 });
 
 app.get('/game', (req, res) => {
-    res.sendFile(__dirname + '/views/game/');
+    res.render(__dirname + '/views/game/index');
 });
 
 const root = io.of("/");

@@ -1,0 +1,20 @@
+@import "../common/index.css";
+
+#canvas {
+  border: solid 1px black;
+}
+
+p {
+  width: 50px;
+  aspect-ratio: 1/1;
+  background: #000;
+}
+
+p:hover {
+  opacity: 0.5;
+}
+
+button {
+  width: 100px;
+  height: 50px;
+}

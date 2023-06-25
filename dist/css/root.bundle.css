@@ -1,6 +1,6 @@
 @font-face {
   font-family: "Noto Sans JP";
-  src: url(../js/fonts/NotoSansJP-Light.woff2);
+  src: url(/fonts/NotoSansJP-Light.woff2);
 }
 *,
 *::before,

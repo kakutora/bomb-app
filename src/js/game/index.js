@@ -1,3 +1,5 @@
+import '../../css/game/index.css';
+import io from 'socket.io-client';
 import { keyInput, KeyOutput, keyEvent } from './utils/keyIO.js';
 import { realPaint } from './utils/canvasDraw.js';
 
