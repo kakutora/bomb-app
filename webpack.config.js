@@ -36,6 +36,18 @@ module.exports = {
                 generator: {
                     filename: '../fonts/[name][ext]' // 出力するフォントファイルのパス
                 }
+            },
+            {
+                test: /\.(png|jpg|gif|svg)$/,
+                use: [
+                    {
+                        loader: 'file-loader', // または 'url-loader'
+                        options: {
+                            name: '[name].[ext]',
+                            outputPath: '../img/'
+                        }
+                    }
+                ]
             }
         ],
     },

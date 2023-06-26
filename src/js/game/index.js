@@ -2,6 +2,11 @@ import '../../css/game/index.css';
 import io from 'socket.io-client';
 import { keyInput, KeyOutput, keyEvent } from './utils/keyIO.js';
 import { realPaint } from './utils/canvasDraw.js';
+importAll(require.context('../../img', true, /\.(png|jpe?g|gif|svg)$/));
+
+function importAll(r) {
+    r.keys().forEach(r);
+}
 
 let players = {};
 let pid;

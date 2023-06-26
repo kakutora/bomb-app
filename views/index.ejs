@@ -1,35 +1,24 @@
   <%- include('common/head',{title:"ボンバーマン",page:"root"}) %>
   <%- include('common/header',{val:"ヘッダー"}) %>
   <main class="main">
-    <section class="mode">
-      <div class="mode__box">
-        <form class="mode__form mode__form--private">
-          <div class="mode__input">
-            <label for="name">名前</label>
-            <input type="text" id="name" required class="mode__inputName">
-          </div>
-          <div class="mode__input">
-            <button type="submit" value="create" class="mode__createRoom">ルームを作成する</button>
-            <p class="mode__result"></p>
-          </div>
-          <div class="mode__input">
-            <button type="submit" value="search" class="mode__searchRoom">ルームに参加する</button>
-            <input type="text" class="mode__inputRoomId" placeholder="8文字で入力してください">
-          </div>
-          <div class="mode__input mode__input--wait">
-            <span class="mode__roomNOP">0</span>/4
-          </div>
-        </form>
+    <form class="form form--private">
+      <div class="form__input">
+        <label for="name">名前</label>
+        <input type="text" id="name" required class="form__inputName">
       </div>
-      <div class="mode__box">
-        <form action="" class="mode__form mode__form--public">
-          <input type="text" id="name">
-          <button type="submit" id="btn">待機所に入室</button>
-        </form>
+      <div class="form__input">
+        <button type="submit" value="create" class="form__createRoom">ルームを作成する</button>
+        <span class="form__result">AAAAAAAA</span>
       </div>
-    </section>
-    <button class="exitBtn"></button>
-
+      <div class="form__input">
+        <button type="submit" value="search" class="form__searchRoom">ルームに参加する</button>
+        <input type="text" class="form__inputRoomId" placeholder="8文字で入力してください">
+      </div>
+    </form>
+    <form class="form form--public">
+      <input type="text" id="name">
+      <button type="submit" id="btn">待機所に入室</button>
+    </form>
   </main>
   <%- include('common/footer',{val:"フッター"}) %>
   <%- include('common/script',{name:"root"}) %>
