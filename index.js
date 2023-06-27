@@ -7,6 +7,7 @@ const io = socketIO(server);
 const ejs = require('ejs');
 const rootNamespace = require('./src/modules/socket.io/NS.root');
 const gameNamespace = require('./src/modules/socket.io/NS.game');
+const setupNamespace = require('./src/modules/socket.io/NS.setup');
 const root = io.of("/");
 const game = io.of("/game");
 
@@ -23,6 +24,10 @@ app.get('/', (req, res) => {
 
 app.get('/game', (req, res) => {
     res.render(__dirname + '/views/game/index');
+});
+
+app.get('/setup', (req, res) => {
+    res.render(__dirname + '/views/setup/index');
 });
 
 rootNamespace(root);

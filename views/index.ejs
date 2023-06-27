@@ -4,7 +4,7 @@
     <form class="form form--private">
       <div class="form__input">
         <label for="name">名前</label>
-        <input type="text" id="name" required class="form__inputName">
+        <input type="text" id="name" class="form__inputName">
       </div>
       <div class="form__input">
         <button type="submit" value="create" class="form__createRoom">ルームを作成する</button>
@@ -19,6 +19,8 @@
       <input type="text" id="name">
       <button type="submit" id="btn">待機所に入室</button>
     </form>
+    <button class="localeBtn" style="display: none;">準備完了</button>
+    <button class="b">CONSOLE</button>
   </main>
   <%- include('common/footer',{val:"フッター"}) %>
   <%- include('common/script',{name:"root"}) %>

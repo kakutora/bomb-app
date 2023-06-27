@@ -7,7 +7,9 @@ const privateForm = document.querySelector('.form--private');
 const privateRoomResult = document.querySelector('.form__result');
 const privateInputRoom = document.querySelector('.form__inputRoomId');
 const privateInputName = document.querySelector('.form__inputName');
+const localeBtn = document.querySelector('.localeBtn');
 const publicForm = document.querySelector('.form--public');
+const b = document.querySelector('.b');
 
 let isEnter = { val: false };
 
@@ -20,12 +22,23 @@ privateForm.addEventListener('submit', (e) => {
         socket.emit("privateSearchRoom", privateInputRoom.value);
     }
 });
-
 socket.on('roomIDforSession', (data) => {
     privateRoomResult.innerHTML = data.data;
     sessionStorage.setItem('roomID', data.data);
     isEnter.val = data.isEnter;
 });
+socket.on('sendBtn', () => {
+    localeBtn.style.display = 'block';
+});
+localeBtn.addEventListener('click', () => {
+    socket.emit('setupReady', sessionStorage.getItem('roomID'));
+});
+socket.on('sendSetupPage', () => {
+    console.log('とびます');
+    window.location.href = `${window.location.protocol}//${window.location.host}/setup`;
+});
+
+
 
 /* 抜ける処理
 exitBtn.addEventListener('click', () => {

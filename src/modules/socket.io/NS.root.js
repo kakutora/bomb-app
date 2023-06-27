@@ -1,23 +1,52 @@
 const crypto = require('crypto');
+const { setTimeout } = require('timers/promises');
 const rooms = {};
+const isRoomUserReady = {};
 
 module.exports = function (root) {
     root.on('connection', (socket) => {
         socket.on('privateCreateRoom', () => {
             let rdmChr = generateRandomString(8);
             socket.join(rdmChr);
+            console.log(socket.id);
+            console.log(typeof socket.id);
+
+            if (!isRoomUserReady[rdmChr]) {
+                isRoomUserReady[rdmChr] = {}; // 新しいオブジェクトを作成して初期化する
+            }
+            isRoomUserReady[rdmChr][socket.id] = { id: socket.id, ready: false };
             socket.emit('roomIDforSession', { data: rdmChr, isEnter: true });
             searchClients(root, rdmChr);
         });
         socket.on('privateSearchRoom', (data) => {
             if (root.adapter.rooms.has(data)) {
-                socket.join(data);
-                socket.emit('roomIDforSession', { data: data, isEnter: true });
-                searchClients(root, data);
+                let clients = clientsNum(root, data);
+                if (clients < 4) {
+                    socket.join(data);
+                    console.log(socket.id);
+                    console.log(typeof socket.id);
+
+                    isRoomUserReady[data][socket.id] = { id: socket.id, ready: false };
+                    socket.emit('roomIDforSession', { data: data, isEnter: true });
+                    searchClients(root, data);
+                    root.to(data).emit('sendBtn');
+                } else {
+                    console.log('ルームは満員です。');
+                }
             } else {
                 console.log('ルームが存在しません。');
             }
         });
+        socket.on('setupReady', (data) => {
+            isRoomUserReady[data][socket.id].ready = true;
+            if (isRoomUserReadyCheck(isRoomUserReady[data])) {
+                console.log('全員準備完了');
+                root.to(data).emit('sendSetupPage');
+            }
+        });
+
+
+
         socket.on('leaveRoom', (data) => {
             socket.leave(data);
             searchClients(root, data);
@@ -81,6 +110,22 @@ const searchClients = (nameSpace, roomName) => {
     nameSpace.to(roomName).emit('clientList', roomClients);
 };
 
+const clientsNum = (nameSpace, roomName) => {
+    let room = nameSpace.adapter.rooms.get(roomName);
+    let roomClients = room ? room.size : 0;
+    return roomClients;
+};
+
 const generateRandomString = (length) => {
     return crypto.randomBytes(Math.ceil(length / 2)).toString('hex').slice(0, length);
+};
+
+const isRoomUserReadyCheck = (users) => {
+    for (const user in users) {
+        if (!users[user].ready) {
+            return false;
+        } else {
+            return true;
+        }
+    }
 };

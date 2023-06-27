@@ -4,7 +4,8 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 module.exports = {
     entry: {
         root: './src/js/root/index.js',
-        game: './src/js/game/index.js'
+        game: './src/js/game/index.js',
+        setup: './src/js/setup/index.js'
     },
 
     output: {
