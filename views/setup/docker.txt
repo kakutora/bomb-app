@@ -1,0 +1,47 @@
+docker(コンテナ型仮想化)
+    dockerhub                   ...レジストリサーバ
+        dockerイメージ保存場所   ...リポジトリ
+
+        dockerのインストール（dockerHPから->dosuments->doc->manual）
+
+            # yum-config-manager --enable [repoName] --有効
+
+            CentOS(Rocky Linux)
+                # yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
+                # dnf install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+                    ...docker-ceのインストール
+                
+                # systemctl start docker
+
+                # docker image ls           ...dockerイメージの表示
+
+                # docker pull XXX           ...dockerイメージの取得
+
+                # docker container ps -a    ...コンテナの一覧（起動中停止中含める）
+
+                # docker container ps       ...コンテナの一覧（実行中のもののみ）
+
+                # docker container create [IMAGE_ID] or [REPOSITORY]
+
+                # docker start -i [CONTAINER_ID] or [NAME]      ...コンテナの実行（stopだと停止（-iはいらない）
+
+                # docker container run hello-world      ...run = pull+create+start
+
+                # docker container rm [CONTAINER_ID]    ...コンテナの削除（停止中のものだけ）
+
+                # docker image rmi [IMAGE_ID]
+
+
+                # docker container create -it --name rocky eeea865f4111 /bin/bash
+                
+                # docker container start -ai rocky      ...-a:アタッチ（接続）
+
+                # exit      ...抜ける（コンテナの停止）
+
+                # C-p → C-q      ...抜ける（コンテナの停止）
+
+                # docker container attach rocky     ...実行中のコンテナに接続
+                # exit      ...終了
+
+                # docker container exec -it rocky /bin/bash     ...実行中のコンテナに接続
+                # exit      ...コンテナ維持
