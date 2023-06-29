@@ -1,31 +1,56 @@
 @import "../common/index.css";
-.swiper--wrapper {
-  /* wrapperのサイズを調整 */
-  width: 100%;
-  height: 300px;
+.swiper-container {
+  position: relative;
+  width: 40%;
+  margin-inline: auto;
 }
-
+.swiper {
+  width: 100%;
+  aspect-ratio: 1/1;
+}
+.swiper-wrapper {
+  width: 100%;
+  height: 100%;
+}
 .swiper-slide {
-  /* スライドのサイズを調整、中身のテキスト配置調整、背景色 */
   color: #ffffff;
   width: 100%;
   height: 100%;
-  text-align: center;
-  line-height: 300px;
-  text-align: center;
 }
-
 .swiper-slide:nth-child(3n + 1) {
-  /*1、4、7、3n+1枚目の背景色 */
-  background-color: #de4439;
+  border: 1px solid #000;
 }
-
 .swiper-slide:nth-child(3n + 2) {
-  /*2、5、8、3n+2枚目の背景色 */
-  background-color: #fcd500;
+  border: 1px solid #000;
 }
-
 .swiper-slide:nth-child(3n + 3) {
-  /*3、6、9、3n+3枚目の背景色 */
-  background-color: #53c638;
+  border: 1px solid #000;
+}
+.swiper-button-prev {
+  left: -60px;
+}
+.swiper-button-next {
+  right: -60px;
+}
+.swiper-pagination-bullets.swiper-pagination-horizontal {
+  bottom: -25px;
+} /* 前へ次への矢印カスタマイズ */
+.swiper-button-prev::after,
+.swiper-button-next::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 20px;
+  height: 25px;
+  margin: auto;
+  background: #000;
+}
+/* 前への矢印カスタマイズ */
+.swiper-button-prev::after {
+  clip-path: polygon(0% 50%, 100% 0, 100% 100%);
+}
+/* 次への矢印カスタマイズ */
+.swiper-button-next::after {
+  clip-path: polygon(0 0, 0% 100%, 100% 50%);
 }

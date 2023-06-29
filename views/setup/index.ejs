@@ -1,15 +1,28 @@
   <%- include('../common/head',{title:"セットアップ",page:"setup"}) %>
   <%- include('../common/header',{val:"ヘッダー"}) %>
   <main class="main">
-    <div class="swiper">
-      <!-- 必要に応じたwrapper -->
-      <div class="swiper-wrapper">
-        <!-- スライド -->
-        <div class="swiper-slide">Slide 1</div>
-        <div class="swiper-slide">Slide 2</div>
-        <div class="swiper-slide">Slide 3</div>
+    <form class=".form">
+      <p>ステージ選択</p>
+      <div class="swiper-container">
+        <div class="swiper">
+          <div class="swiper-wrapper">
+            <div class="swiper-slide">Slide 1</div>
+            <div class="swiper-slide">Slide 2</div>
+            <div class="swiper-slide">Slide 3</div>
+          </div>
+        </div>
+        <div class="swiper-pagination"></div>
+        <div class="swiper-button-prev"></div>
+        <div class="swiper-button-next"></div>
       </div>
-    </div>
+
+      <div>
+        <label for="time">時間：</label>
+        <input type="text">
+      </div>
+
+      <button type="submit">準備完了</button>
+    </form>
   </main>
   <%- include('../common/footer',{val:"フッター"}) %>
   <%- include('../common/script',{name:"setup"}) %>
